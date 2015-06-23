@@ -128,12 +128,12 @@ db.define_table('horarios',
 
 db.define_table('clasesxcli',
     Field('cliente', db.clientes),
-    Field('horario', db.horarios),
+    Field('clase', db.clases),
     singular = 'Clases x cliente', plural = 'Clases x cliente'
     )
 
 db.clasesxcli.cliente.requires = IS_IN_DB(db, db.clientes.id, '%(nombre)s')
-db.clasesxcli.horario.requires = IS_IN_DB(db, 'horarios.id', 'horarios.inicio')
+db.clasesxcli.clase.requires = IS_IN_DB(db, 'clases.id', 'clase.detalle')
 
 db.horarios.clase.requires = IS_IN_DB(db, 'clases.id', 'clases.detalle')
 db.horarios.inicio.requires = IS_TIME()

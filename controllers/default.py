@@ -72,7 +72,7 @@ def clientes():
 @auth.requires_login()
 def clientesgrilla():
 
-    linkpago =  links = [lambda row: A(SPAN(_class='icon magnifier'),'Ver Pagos',_class='button',_title='Ver Pagos',_href=URL(args=["verpagos", row.id]))]
+    linkpago =  links = [lambda row: A(SPAN(_class='icon magnifier'),'Pagos',_class='button',_title='Ver Pagos',_href=URL('registrapagos',args=[row.id]))]
     grid = SQLFORM.grid(db.clientes,
         showbuttontext = False,
         links = linkpago
@@ -88,10 +88,8 @@ def clases():
 
 @auth.requires_login()
 def clasesxcli():
-    consulta = db().select(db.clasesxcli.ALL)
     grid = SQLFORM.grid(db.clasesxcli,
         showbuttontext = False,
-        left = db.horarios.on(db.clasesxcli.horario == db.horarios.id)
         )
     return locals()
 
@@ -106,14 +104,12 @@ def horarios():
 @auth.requires_login()
 def registrapagos():
 
-    registro = db.clasesxcli(request.args(0)) ##or redirect(URL('registrapagos'))
-    link = URL('clasesxalu', args='db')
+    registros = db(db.clasesxcli.cliente == request.args(0)).select() ##or redirect(URL('registrapagos'))
 
     formulario = SQLFORM(db.pagos,
-        registro,
         submit_button = 'Grabar',
-        linkto = link
         )
+    formulario.vars.cliente = request.args(0)
 
     if formulario.process().accepted:
         response.flash = 'Formulario aceptado'
@@ -122,4 +118,4 @@ def registrapagos():
     else:
         response.flash = 'Complete el registro de pago'
 
-    return dict(formulario=formulario)
+    return dict(formulario=formulario, registros=registros)
