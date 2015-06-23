@@ -64,7 +64,8 @@ def clientes():
 
     grid = SQLFORM.smartgrid(db.clientes,
         showbuttontext = False,
-        linked_tables = ['pagos'],
+        linked_tables = ['pagos', 'clasesxcli'],
+        upload = URL('download'),
         orderby = dict(parent = db.clientes.nombre, child=db.pagos.fecha_pago)
         )
     return locals()
@@ -79,6 +80,14 @@ def clases():
 @auth.requires_login()
 def clasesxcli():
     grid = SQLFORM.grid(db.clasesxcli,
+        showbuttontext = False
+        )
+    return locals()
+
+
+@auth.requires_login()
+def horarios():
+    grid = SQLFORM.grid(db.horarios,
         showbuttontext = False
         )
     return locals()

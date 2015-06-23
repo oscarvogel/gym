@@ -121,19 +121,23 @@ db.define_table('clases',
 
 db.define_table('horarios',
     Field('clase', db.clases),
-    Field('inicio', requires = IS_TIME()),
-    Field('fin', requires = IS_TIME())
+    Field('inicio', 'time', requires = IS_TIME()),
+    Field('fin', 'time', requires = IS_TIME())
     )
 
 db.define_table('clasesxcli',
     Field('cliente', db.clientes),
-    Field('horario', db.horarios)
+    Field('horario', db.horarios),
+    singular = 'Clases x cliente', plural = 'Clases x cliente'
     )
 
 db.clasesxcli.cliente.requires = IS_IN_DB(db, 'clientes.id', 'clientes.nombre')
-db.clasesxcli.horario.requires = IS_IN_DB(db, 'horarios.id', 'horario.detalle')
+db.clasesxcli.horario.requires = IS_IN_DB(db, 'horarios.id', 'horarios.inicio')
 
 db.horarios.clase.requires = IS_IN_DB(db, 'clases.id', 'clases.detalle')
+db.horarios.inicio.requires = IS_TIME()
+db.horarios.fin.requires = IS_TIME()
 
 db.pagos.cliente.requires = IS_IN_DB(db, 'clientes.id', 'clientes.nombre')
+
 crud = Crud(db)
