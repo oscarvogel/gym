@@ -70,6 +70,16 @@ def clientes():
     return locals()
 
 @auth.requires_login()
+def clientesgrilla():
+
+    linkpago =  links = [lambda row: A(SPAN(_class='icon magnifier'),'Ver Pagos',_class='button',_title='Ver Pagos',_href=URL(args=["verpagos", row.id]))]
+    grid = SQLFORM.grid(db.clientes,
+        showbuttontext = False,
+        links = linkpago
+    )
+    return locals()
+
+@auth.requires_login()
 def clases():
     grid = SQLFORM.grid(db.clases,
         showbuttontext = False

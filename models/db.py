@@ -106,6 +106,7 @@ db.define_table('clientes',
                 Field('imagen','upload', autodelete=True, requires = IS_EMPTY_OR(IS_IMAGE())),
                 singular = 'Cliente', plural = 'Clientes'
                 )
+db.clientes.nombre.represent = lambda nombre, registro:nombre.capitalize()
 
 db.define_table('pagos',
     Field('cliente','reference clientes'),
