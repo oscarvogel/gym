@@ -1,0 +1,10 @@
+[2015-06-19 21:31:33] START
+[2015-06-19 21:33:32] EDIT gym/models/db.py: 3
+[2015-06-19 21:33:39] EDIT gym/models/db.py: 0
+[2015-06-19 21:35:00] EDIT gym/controllers/default.py: 6
+[2015-06-19 21:35:21] CREATE default/clientes.html: 0
+[2015-06-19 21:35:44] EDIT gym/views/default/clientes.html: 0
+[2015-06-19 21:41:49] CREATE clientes.py: 0
+[2015-06-19 21:42:15] EDIT gym/controllers/clientes.py: 5
+[2015-06-19 21:43:08] CREATE clientes/index.html: 0
+[2015-06-19 21:43:23] EDIT gym/views/clientes/index.html: 0
