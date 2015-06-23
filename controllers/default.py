@@ -61,12 +61,11 @@ def clientes():
     db.pagos.cliente.writable = False
     db.pagos.cliente.readable = False
     db.pagos.id.readable = False
-
     grid = SQLFORM.smartgrid(db.clientes,
         showbuttontext = False,
-        linked_tables = ['pagos', 'clasesxcli'],
+        linked_tables = ['pagos'],
         upload = URL('download'),
-        orderby = dict(parent = db.clientes.nombre, child=db.pagos.fecha_pago)
+        orderby = dict(parent = db.clientes.nombre, child=db.pagos.fecha_pago),
         )
     return locals()
 
@@ -79,8 +78,10 @@ def clases():
 
 @auth.requires_login()
 def clasesxcli():
+    consulta = db().select(db.clasesxcli.ALL)
     grid = SQLFORM.grid(db.clasesxcli,
-        showbuttontext = False
+        showbuttontext = False,
+        left = db.horarios.on(db.clasesxcli.horario == db.horarios.id)
         )
     return locals()
 
@@ -91,3 +92,24 @@ def horarios():
         showbuttontext = False
         )
     return locals()
+
+@auth.requires_login()
+def registrapagos():
+
+    registro = db.clasesxcli(request.args(0)) ##or redirect(URL('registrapagos'))
+    link = URL('clasesxalu', args='db')
+
+    formulario = SQLFORM(db.pagos,
+        registro,
+        submit_button = 'Grabar',
+        linkto = link
+        )
+
+    if formulario.process().accepted:
+        response.flash = 'Formulario aceptado'
+    elif formulario.errors:
+        response.flash = 'Formulario con errores'
+    else:
+        response.flash = 'Complete el registro de pago'
+
+    return dict(formulario=formulario)

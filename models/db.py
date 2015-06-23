@@ -131,13 +131,13 @@ db.define_table('clasesxcli',
     singular = 'Clases x cliente', plural = 'Clases x cliente'
     )
 
-db.clasesxcli.cliente.requires = IS_IN_DB(db, 'clientes.id', 'clientes.nombre')
+db.clasesxcli.cliente.requires = IS_IN_DB(db, db.clientes.id, '%(nombre)s')
 db.clasesxcli.horario.requires = IS_IN_DB(db, 'horarios.id', 'horarios.inicio')
 
 db.horarios.clase.requires = IS_IN_DB(db, 'clases.id', 'clases.detalle')
 db.horarios.inicio.requires = IS_TIME()
 db.horarios.fin.requires = IS_TIME()
 
-db.pagos.cliente.requires = IS_IN_DB(db, 'clientes.id', 'clientes.nombre')
+db.pagos.cliente.requires = IS_IN_DB(db, db.clientes.id, '%(nombre)s')
 
 crud = Crud(db)
