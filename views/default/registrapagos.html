@@ -2,6 +2,9 @@
 <h1>Registro de pagos</h1>
 {{=formulario}}
 <h2>Clases que asiste</h2>
+<table class="table">
+<th>Clase</th>
 {{for registro in registros:}}
-    {{=H3(registro.clase.detalle)}}
+    {{=TR(TD(registro.clase.detalle))}}
    {{pass}}
+</table>

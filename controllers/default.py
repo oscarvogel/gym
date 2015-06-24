@@ -110,7 +110,6 @@ def registrapagos():
         submit_button = 'Grabar',
         )
     formulario.vars.cliente = request.args(0)
-
     if formulario.process().accepted:
         response.flash = 'Formulario aceptado'
     elif formulario.errors:
