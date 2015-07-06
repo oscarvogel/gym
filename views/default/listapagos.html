@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+<h2>Listar pagos</h2>
+{{=formulario}}
+<h2>Pagos registrados</h2>
+<table class="table">
+<th>Fecha</th><th>Alumno</th><th>Monto</th>
+{{total = 0}}
+{{format = '%d/%m/%Y'}}
+{{for registro in registros:}}
+    {{=TR(TD(registro.fecha_pago.strftime(format)),TD(registro.cliente.nombre), TD(registro.cuota))}}
+    {{total += registro.cuota}}
+   {{pass}}
+{{=TR(TD(),TD('Total'),TD(total))}}
+</table>

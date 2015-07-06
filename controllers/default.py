@@ -8,6 +8,8 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
+import datetime
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -116,5 +118,21 @@ def registrapagos():
         response.flash = 'Formulario con errores'
     else:
         response.flash = 'Complete el registro de pago'
+
+    return dict(formulario=formulario, registros=registros)
+
+@auth.requires_login()
+def listapagos():
+    formulario = SQLFORM.factory(
+        Field('Desde', 'date', requires=IS_DATE()),
+        Field('Hasta', 'date', requires=IS_DATE()))
+
+    registros = db((db.pagos.fecha_pago == datetime.date.today())).select(db.pagos.ALL)
+    if formulario.process().accepted:
+        session.Desde = formulario.vars.Desde
+        session.Hasta = formulario.vars.Hasta
+        registros = db((db.pagos.fecha_pago >= session.Desde) & (db.pagos.fecha_pago <= session.Hasta)).select()
+    elif formulario.errors:
+        response.flash = 'el formulario tiene errores'
 
     return dict(formulario=formulario, registros=registros)
